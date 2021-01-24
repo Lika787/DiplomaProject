@@ -1,12 +1,5 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from rest_framework import viewsets
-from rest_framework import generics
-
 from rest_framework import viewsets
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from .models import MedicalStaff, Address, Patient, NationCl025, TreatmentSession, Comorbidity, StageOfTreatment, \
     NationCl026, Surgery, SurgeryMedicalStaff, NationClPill, Pharmacotherapy, Physiotherapy, \
     PhysiotherapyMedicalStaff, ElectroUltrasoundTherapy, EusMedicalStaff, State, NationCl027, LaboratoryTest, \
@@ -16,7 +9,8 @@ from .serializers import PatientSerializer, TreatmentSessionSerializer, StageOfT
     CatalogMeasurementSerializer, LabMedicalStaffSerializer, NationCl027Serializer, \
     EusMedicalStaffSerializer, ElectroUltrasoundTherapySerializer, PhysiotherapyMedicalStaffSerializer, \
     PhysiotherapySerializer, NationClPillSerializer, SurgeryMedicalStaffSerializer, SurgerySerializer,\
-    NationCl026Serializer, ComorbiditySerializer, NationCl025Serializer, AddressSerializer, MedicalStaffSerializer
+    NationCl026Serializer, ComorbiditySerializer, NationCl025Serializer, AddressSerializer, MedicalStaffSerializer,\
+    PatientAllSerializer, Doctor
 
 
 class ImageViewSet(viewsets.ModelViewSet):
@@ -142,3 +136,12 @@ class PatientListView(viewsets.ModelViewSet):
 class PatientDateBirth(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
     queryset = Patient.objects.filter(dateBirth__lte='1998-01-01')
+
+
+class PatientAll(viewsets.ModelViewSet):
+    serializer_class = PatientAllSerializer
+    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
+
+class Doctor(viewsets.ModelViewSet):
+    serializer_class = Doctor
+    queryset = MedicalStaff.objects.all()

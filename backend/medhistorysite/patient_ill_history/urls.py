@@ -5,7 +5,7 @@ from .views import MedicalStaffViewSet, PatientDateBirth, PatientListView, Image
     EusMedicalStaffViewSet, ElectroUltrasoundTherapyViewSet, PhysiotherapyMedicalStaffViewSet, PhysiotherapyViewSet, \
     PharmacotherapyViewSet, NationClPillViewSet, SurgeryMedicalStaffViewSet, SurgeryViewSet, NationCl026ViewSet,\
     StageOfTreatmentViewSet, ComorbidityViewSet, TreatmentSessionViewSet, NationCl025ViewSet, PatientViewSet, \
-    AddressViewSet
+    AddressViewSet, PatientAll, Doctor
 
 router = DefaultRouter()
 
@@ -35,5 +35,7 @@ router.register(r'Image', ImageViewSet, basename='user')
 
 router.register(r'PatientDateBirth', PatientDateBirth, basename='user')
 router.register(r'PatientListView', PatientListView, basename='user')
+router.register(r'PatientAll', PatientAll, basename='user')
+router.register(r'Doctor', Doctor, basename='user')
 
 urlpatterns = router.urls
