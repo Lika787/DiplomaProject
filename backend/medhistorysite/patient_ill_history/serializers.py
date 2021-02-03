@@ -278,7 +278,7 @@ class TreatmentDetSerializer(serializers.ModelSerializer):
         fields = ['startSession', 'mainIll', 'doctor', 'comorbidity', 'stage_of_treatment', 'endSession']
 
 
-class Doctor(serializers.ModelSerializer):
+class MedicalStaffAtTreatmentSession(serializers.ModelSerializer):
     treatment_session = TreatmentDetSerializer(many=True, read_only=True)
     class Meta:
         model = MedicalStaff
@@ -290,3 +290,18 @@ class PatientAllSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = ['name', 'surname', 'treatment_session']
+
+
+class TreatmentSessionTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TreatmentSession
+        fields = ('startSession', 'endSession')
+
+
+class TestSerializer(serializers.ModelSerializer):
+    treatment_session = TreatmentSessionTestSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Patient
+        fields = ('name', 'surname', 'treatment_session')
+

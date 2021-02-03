@@ -122,7 +122,7 @@ class Surgery(models.Model):
     idStage = models.ForeignKey(StageOfTreatment, related_name='surgery', on_delete=models.CASCADE)
     idNameIntervention = models.ForeignKey(NationCl026, null=True, on_delete=models.SET_NULL)
     DateIntervention = models.DateTimeField()
-    idMedStaff = models.ManyToManyField(MedicalStaff, null=True, through='SurgeryMedicalStaff',
+    idMedStaff = models.ManyToManyField(MedicalStaff, through='SurgeryMedicalStaff',
                                         through_fields=('surgery', 'medicalStaff'))
 
     class Meta:

@@ -1,4 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from drf_renderer_xlsx.mixins import XLSXFileMixin
+from drf_renderer_xlsx.renderers import XLSXRenderer
+
 
 from .models import MedicalStaff, Address, Patient, NationCl025, TreatmentSession, Comorbidity, StageOfTreatment, \
     NationCl026, Surgery, SurgeryMedicalStaff, NationClPill, Pharmacotherapy, Physiotherapy, \
@@ -10,8 +14,7 @@ from .serializers import PatientSerializer, TreatmentSessionSerializer, StageOfT
     EusMedicalStaffSerializer, ElectroUltrasoundTherapySerializer, PhysiotherapyMedicalStaffSerializer, \
     PhysiotherapySerializer, NationClPillSerializer, SurgeryMedicalStaffSerializer, SurgerySerializer,\
     NationCl026Serializer, ComorbiditySerializer, NationCl025Serializer, AddressSerializer, MedicalStaffSerializer,\
-    PatientAllSerializer, Doctor
-
+    PatientAllSerializer, MedicalStaffAtTreatmentSession, TestSerializer
 
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
@@ -142,6 +145,37 @@ class PatientAll(viewsets.ModelViewSet):
     serializer_class = PatientAllSerializer
     queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
 
-class Doctor(viewsets.ModelViewSet):
-    serializer_class = Doctor
+
+class MedicalStaffAtTreatmentSession(viewsets.ModelViewSet):
+    serializer_class = MedicalStaffAtTreatmentSession
     queryset = MedicalStaff.objects.all()
+
+
+class MyExampleViewSet(XLSXFileMixin, ReadOnlyModelViewSet):
+    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
+    serializer_class = PatientAllSerializer
+    renderer_classes = [XLSXRenderer]
+    filename = 'my_export.xlsx'
+
+from pandas.io.json import json_normalize
+import pandas as pd
+from rest_framework.response import Response
+
+
+class Test(viewsets.ModelViewSet):
+    serializer_class = TestSerializer()
+    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
+
+    def list(self, request):
+        queryset = Patient.objects.all()
+        normalized = json_normalize(queryset)
+        result = pd.concat(normalized, axis=0).to_dict(orient='record')
+        return Response(result)
+
+
+class MyTestViewSet(XLSXFileMixin, ReadOnlyModelViewSet):
+    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
+    #json_normalize(queryset)
+    serializer_class = TestSerializer
+    renderer_classes = [XLSXRenderer]
+    filename = 'my_export_test.xlsx'

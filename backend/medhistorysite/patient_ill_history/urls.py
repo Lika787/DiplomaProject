@@ -1,12 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from .views import MedicalStaffViewSet, PatientDateBirth, PatientListView, ImageViewSet, MeasurementViewSet,\
     CatalogMeasurementViewSet, LabMedicalStaffViewSet, LaboratoryTestViewSet, NationCl027ViewSet, StateViewSet,\
     EusMedicalStaffViewSet, ElectroUltrasoundTherapyViewSet, PhysiotherapyMedicalStaffViewSet, PhysiotherapyViewSet, \
     PharmacotherapyViewSet, NationClPillViewSet, SurgeryMedicalStaffViewSet, SurgeryViewSet, NationCl026ViewSet,\
     StageOfTreatmentViewSet, ComorbidityViewSet, TreatmentSessionViewSet, NationCl025ViewSet, PatientViewSet, \
-    AddressViewSet, PatientAll, Doctor
-
+    AddressViewSet, PatientAll, MedicalStaffAtTreatmentSession, MyExampleViewSet, Test, MyTestViewSet
 router = DefaultRouter()
 
 router.register(r'MedicalStaff', MedicalStaffViewSet, basename='user')
@@ -36,6 +36,9 @@ router.register(r'Image', ImageViewSet, basename='user')
 router.register(r'PatientDateBirth', PatientDateBirth, basename='user')
 router.register(r'PatientListView', PatientListView, basename='user')
 router.register(r'PatientAll', PatientAll, basename='user')
-router.register(r'Doctor', Doctor, basename='user')
+router.register(r'MedicalStaffAtTreatmentSession', MedicalStaffAtTreatmentSession, basename='user')
+router.register(r'MyExampleViewSet', MyExampleViewSet, basename='user')
+router.register(r'Test', Test, basename='user')
+router.register(r'MyTestViewSet', MyTestViewSet, basename='user')
 
 urlpatterns = router.urls
