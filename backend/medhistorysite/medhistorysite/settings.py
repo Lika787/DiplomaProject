@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'patient_ill_history.apps.PatientIllHistoryConfig',
-    'rest_framework'
+    'rest_framework',
+    'django_seed'
 ]
 
 REST_FRAMEWORK = {
