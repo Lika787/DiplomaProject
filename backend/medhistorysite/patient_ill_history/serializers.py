@@ -295,7 +295,7 @@ class PatientAllSerializer(serializers.ModelSerializer):
 class TreatmentSessionTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = TreatmentSession
-        fields = ('startSession', 'endSession')
+        fields = ['startSession', 'endSession']
 
 
 class TestSerializer(serializers.ModelSerializer):
@@ -303,5 +303,5 @@ class TestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = ('name', 'surname', 'treatment_session')
+        fields = ['name', 'surname', 'treatment_session']
 

@@ -1,3 +1,7 @@
+from datetime import date
+from uuid import UUID
+
+import pandas
 from rest_framework import viewsets
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from drf_renderer_xlsx.mixins import XLSXFileMixin
@@ -158,19 +162,22 @@ class MyExampleViewSet(XLSXFileMixin, ReadOnlyModelViewSet):
     filename = 'my_export.xlsx'
 
 from pandas.io.json import json_normalize
-import pandas as pd
-from rest_framework.response import Response
+from django.http import HttpResponse
+from json import dumps
+from rest_framework.views import APIView
 
 
-class Test(viewsets.ModelViewSet):
-    serializer_class = TestSerializer()
-    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
-
-    def list(self, request):
-        queryset = Patient.objects.all()
-        normalized = json_normalize(queryset)
-        result = pd.concat(normalized, axis=0).to_dict(orient='record')
-        return Response(result)
+class Test(APIView):
+    def get(self, request):
+        queryset = Measurement.objects.select_related().all()
+        normalized = json_normalize([p.__dict__ for p in queryset])
+        result = normalized.to_dict(orient='record')
+        for res in result:
+            for k, v in res.items():
+                if isinstance(v, UUID) or isinstance(v, date):
+                    res[k] = str(v)
+            res['_state'] = None
+        return HttpResponse(dumps(result))
 
 
 class MyTestViewSet(XLSXFileMixin, ReadOnlyModelViewSet):
@@ -179,3 +186,5 @@ class MyTestViewSet(XLSXFileMixin, ReadOnlyModelViewSet):
     serializer_class = TestSerializer
     renderer_classes = [XLSXRenderer]
     filename = 'my_export_test.xlsx'
+
+

@@ -7,6 +7,7 @@ from .views import MedicalStaffViewSet, PatientDateBirth, PatientListView, Image
     PharmacotherapyViewSet, NationClPillViewSet, SurgeryMedicalStaffViewSet, SurgeryViewSet, NationCl026ViewSet,\
     StageOfTreatmentViewSet, ComorbidityViewSet, TreatmentSessionViewSet, NationCl025ViewSet, PatientViewSet, \
     AddressViewSet, PatientAll, MedicalStaffAtTreatmentSession, MyExampleViewSet, Test, MyTestViewSet
+
 router = DefaultRouter()
 
 router.register(r'MedicalStaff', MedicalStaffViewSet, basename='user')
@@ -38,7 +39,8 @@ router.register(r'PatientListView', PatientListView, basename='user')
 router.register(r'PatientAll', PatientAll, basename='user')
 router.register(r'MedicalStaffAtTreatmentSession', MedicalStaffAtTreatmentSession, basename='user')
 router.register(r'MyExampleViewSet', MyExampleViewSet, basename='user')
-router.register(r'Test', Test, basename='user')
 router.register(r'MyTestViewSet', MyTestViewSet, basename='user')
 
-urlpatterns = router.urls
+urlpatterns = router.urls + [
+    path('api/test', Test.as_view())
+]
