@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 
 
 class MedicalStaff(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     surname = models.CharField(max_length=100)
     name = models.CharField(max_length=200)
     patronymic = models.CharField(max_length=100)
@@ -33,7 +32,6 @@ class MedicalStaff(models.Model):
 
 
 class Address(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     country = models.CharField(max_length=100)
     region = models.CharField(max_length=100)
     cityVillage = models.CharField(max_length=100)
@@ -42,7 +40,6 @@ class Address(models.Model):
 
 
 class Patient(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     surname = models.CharField(max_length=100)
     name = models.CharField(max_length=200)
     patronymic = models.CharField(max_length=100)
@@ -72,7 +69,6 @@ class Patient(models.Model):
 
 
 class NationCl025(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     codeIll = models.CharField(max_length=30)
     nameIll = models.CharField(max_length=70)
 
@@ -81,7 +77,6 @@ class NationCl025(models.Model):
 
 
 class TreatmentSession(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idPatient = models.ForeignKey(Patient, related_name='treatment_session', on_delete=models.CASCADE)
     idMainIll = models.ForeignKey(NationCl025, null=True, on_delete=models.SET_NULL)
     startSession = models.DateTimeField()
@@ -93,13 +88,11 @@ class TreatmentSession(models.Model):
 
 
 class Comorbidity(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idSession = models.ForeignKey(TreatmentSession, related_name='comorbidity', on_delete=models.CASCADE, null=True)
     idNameIll = models.ForeignKey(NationCl025, null=True, on_delete=models.SET_NULL)
 
 
 class StageOfTreatment(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idSession = models.ForeignKey(TreatmentSession, related_name='stage_of_treatment', on_delete=models.CASCADE)
     stageName = models.CharField(max_length=100)
     startStage = models.DateTimeField()
@@ -109,7 +102,6 @@ class StageOfTreatment(models.Model):
         unique_together = ['stageName', 'startStage', 'endStage']
 
 class NationCl026(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     codeIntervention = models.CharField(max_length=30)
     nameIntervention = models.CharField(max_length=70)
 
@@ -118,7 +110,6 @@ class NationCl026(models.Model):
 
 
 class Surgery(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idStage = models.ForeignKey(StageOfTreatment, related_name='surgery', on_delete=models.CASCADE)
     idNameIntervention = models.ForeignKey(NationCl026, null=True, on_delete=models.SET_NULL)
     DateIntervention = models.DateTimeField()
@@ -135,7 +126,6 @@ class SurgeryMedicalStaff (models.Model):
 
 
 class NationClPill(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     codePill = models.CharField(max_length=100)
     namePill = models.CharField(max_length=100)
 
@@ -144,7 +134,6 @@ class NationClPill(models.Model):
 
 
 class Pharmacotherapy(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idStage = models.ForeignKey(StageOfTreatment, related_name='pharmacotherapy', on_delete=models.CASCADE)
     idNamePill = models.ForeignKey(NationClPill, null=True, on_delete=models.SET_NULL)
     dosePill = models.FloatField()
@@ -157,7 +146,6 @@ class Pharmacotherapy(models.Model):
 
 
 class Physiotherapy(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idStage = models.ForeignKey(StageOfTreatment, related_name='physiotherapy', on_delete=models.CASCADE)
     namePhysiotherapy = models.CharField(max_length=60)
     valuePhysiotherapy = models.FloatField()
@@ -176,7 +164,6 @@ class PhysiotherapyMedicalStaff (models.Model):
 
 
 class ElectroUltrasoundTherapy(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idStage = models.ForeignKey(StageOfTreatment, related_name='electro_ultrasound_therapy', on_delete=models.CASCADE)
     nameEus = models.CharField(max_length=60)
     valueEus = models.FloatField()
@@ -195,12 +182,10 @@ class EusMedicalStaff (models.Model):
 
 
 class State(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idStage = models.ForeignKey(StageOfTreatment, related_name='state', on_delete=models.CASCADE)
 
 
 class NationCl027(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     codeTest = models.CharField(max_length=30)
     nameTest = models.CharField(max_length=70)
 
@@ -209,7 +194,6 @@ class NationCl027(models.Model):
 
 
 class LaboratoryTest(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idState = models.ForeignKey(State, related_name='laboratory_test', on_delete=models.CASCADE)
     nameTest = models.ForeignKey(NationCl027, null=True, on_delete=models.SET_NULL)
     valueTest = models.FloatField()
@@ -229,7 +213,6 @@ class LabMedicalStaff (models.Model):
 
 
 class CatalogMeasurement(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nameMeasurement = models.CharField(max_length=100)
     unitMeasurement = models.CharField(max_length=20)
 
@@ -238,7 +221,6 @@ class CatalogMeasurement(models.Model):
 
 
 class Measurement(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idState = models.ForeignKey(State, related_name='measurement', on_delete=models.CASCADE)
     idCatalogMeasurement = models.ForeignKey(CatalogMeasurement, null=True, on_delete=models.SET_NULL)
     valueMeasurement = models.FloatField()
@@ -250,7 +232,6 @@ class Measurement(models.Model):
 
 
 class Image(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     idState = models.ForeignKey(State, null=True, related_name='image', on_delete=models.CASCADE)
     nameImage = models.CharField(max_length=80)
     hostImage = models.FilePathField()

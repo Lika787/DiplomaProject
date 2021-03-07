@@ -147,7 +147,7 @@ class PatientDateBirth(viewsets.ModelViewSet):
 
 class PatientAll(viewsets.ModelViewSet):
     serializer_class = PatientAllSerializer
-    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
+    queryset = Patient.objects.filter(id=1)
 
 
 class MedicalStaffAtTreatmentSession(viewsets.ModelViewSet):
@@ -156,7 +156,7 @@ class MedicalStaffAtTreatmentSession(viewsets.ModelViewSet):
 
 
 class MyExampleViewSet(XLSXFileMixin, ReadOnlyModelViewSet):
-    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
+    queryset = Patient.objects.filter(id=1)
     serializer_class = PatientAllSerializer
     renderer_classes = [XLSXRenderer]
     filename = 'my_export.xlsx'
@@ -181,7 +181,7 @@ class Test(APIView):
 
 
 class MyTestViewSet(XLSXFileMixin, ReadOnlyModelViewSet):
-    queryset = Patient.objects.filter(id='e60e2d92-8590-4189-9117-353e3a3a45e8')
+    queryset = Patient.objects.filter(id=1)
     #json_normalize(queryset)
     serializer_class = TestSerializer
     renderer_classes = [XLSXRenderer]

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'patient_ill_history.apps.PatientIllHistoryConfig',
     'rest_framework',
-    'django_seed'
+    'django_seed',
+    'auto_rest.apps.AutoRestConfig'
 ]
 
 REST_FRAMEWORK = {
