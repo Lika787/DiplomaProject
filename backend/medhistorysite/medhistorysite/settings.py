@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'patient_ill_history.apps.PatientIllHistoryConfig',
     'rest_framework',
     'django_seed',
-    'auto_rest.apps.AutoRestConfig'
+    'auto_rest.apps.AutoRestConfig',
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {

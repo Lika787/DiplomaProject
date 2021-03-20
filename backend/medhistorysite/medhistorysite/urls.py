@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/excel/', include('patient_ill_history.urls')),
     path('api/rest/', include('auto_rest.urls')),
-    #path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('optimization.urls')),
 ]
