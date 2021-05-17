@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor as Regression
+from sklearn.linear_model import LinearRegression as Regression
 
 
 class OptimizationModel:
@@ -33,7 +33,8 @@ class OptimizationModel:
 
     def predict(self, input_df):
         input_df = input_df.copy()
-        if missed_columns := set(self.features) - set(input_df.columns):
+        missed_columns = set(self.features) - set(input_df.columns)
+        if missed_columns:
             raise ValueError(f'Missed input columns: {", ".join(sorted(missed_columns))}')
 
         X = input_df[self.features]
@@ -45,7 +46,8 @@ class OptimizationModel:
 
     def optimize(self, input_df, k_best=5):
         input_df = input_df.copy()
-        if missed_columns := set(self.input_features) - set(input_df.columns):
+        missed_columns = set(self.input_features) - set(input_df.columns)
+        if missed_columns:
             raise ValueError(f'Missed input columns: {", ".join(sorted(missed_columns))}')
 
         return input_df.apply(lambda x: self.optimize_row(x, k_best), axis=1).values
