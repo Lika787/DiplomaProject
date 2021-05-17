@@ -44,15 +44,15 @@ class OptimizationModel:
 
         return input_df
 
-    def optimize(self, input_df, k_best=5):
+    def optimize(self, input_df, k_best=5, visualize=False):
         input_df = input_df.copy()
         missed_columns = set(self.input_features) - set(input_df.columns)
         if missed_columns:
             raise ValueError(f'Missed input columns: {", ".join(sorted(missed_columns))}')
 
-        return input_df.apply(lambda x: self.optimize_row(x, k_best), axis=1).values
+        return input_df.apply(lambda x: self.optimize_row(x, k_best, visualize), axis=1).values
 
-    def optimize_row(self, row, k_best):
+    def optimize_row(self, row, k_best, visualize):
         results = dict()
         for field in self.healing_field():
             row_dict = dict(row)
@@ -63,6 +63,9 @@ class OptimizationModel:
                 score = self.optimization_score(
                     row_df[self.optimization_label].values[0])
                 results[score] = row_df
+                if visualize:
+                    display(f'відхилення = {score}')
+                    display(row_df)
 
         scores = sorted(results.keys())[:k_best]
         return [{'score': s, 'parameters': results[s].to_dict(orient='records')[0]}
